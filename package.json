@@ -10,7 +10,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
@@ -20,5 +19,15 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.0.1",
     "nodemailer": "^7.0.11"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kevinth-Garcia/E-commerce-Backend-Kevinth-Garcia.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Kevinth-Garcia/E-commerce-Backend-Kevinth-Garcia/issues"
+  },
+  "homepage": "https://github.com/Kevinth-Garcia/E-commerce-Backend-Kevinth-Garcia#readme",
+  "description": ""
 }
