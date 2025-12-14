@@ -1,26 +1,23 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import User from "../models/User.js";
+import User from "../Models/User.js";
 
 dotenv.config({ path: "./.env" });
 
+//const para verificar a los usuarios antiguos
+
 const verifyAllUsers = async () => {
   try {
-    // Conectar a MongoDB
     await mongoose.connect(process.env.MONGODB_URI);
     console.log("Conectado a MongoDB\n");
 
     const allUsers = await User.find({});
-    console.log(
-      `Total de usuarios en la base de datos: ${allUsers.length}\n`
-    );
+    console.log(`Total de usuarios en la base de datos: ${allUsers.length}\n`);
     const unverifiedUsers = allUsers.filter((u) => !u.isEmailVerified);
 
     console.log(`Usuarios sin verificar: ${unverifiedUsers.length}`);
     console.log(
-      `Usuarios ya verificados: ${
-        allUsers.length - unverifiedUsers.length
-      }\n`
+      `Usuarios ya verificados: ${allUsers.length - unverifiedUsers.length}\n`
     );
 
     if (unverifiedUsers.length === 0) {

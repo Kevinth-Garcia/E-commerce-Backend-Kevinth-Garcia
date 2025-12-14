@@ -4,6 +4,7 @@ import Product from "../models/Product.js";
 
 dotenv.config();
 
+//lista de productos listo para inyectar en mongoDB
 
 const products = [
   {
@@ -88,6 +89,7 @@ const products = [
   },
 ];
 
+//const para inyectar los productos en mongo
 
 const seedProducts = async () => {
   try {

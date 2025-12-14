@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import User from "../models/User";
+import User from "../Models/User";
+
+//constante para ver los usuarios
+//mostrando los que estan verificados
+//mostrando los no verificados
 
 const checkUsers = async () => {
   try {

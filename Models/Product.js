@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
 //Esquema de producto que representa si un articulo esta disponible en la tienda
 // con sus correspectivos campos de Nombre, Descripcion, Precio, Imagen , Stock.
@@ -31,7 +31,7 @@ const productSchema = new mongoose.Schema(
     },
   },
   {
-    timestamps: true, //Timestamps automaticos 
+    timestamps: true, //Timestamps automaticos
   }
 );
 

@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import User from "../models/User.js";
+import User from "../Models/User.js";
 
 dotenv.config({ path: "./.env" });
 
+//const para dar permisos de admin
+
 const makeAdmin = async () => {
   try {
-    
     const email = process.argv[2];
 
     if (!email) {

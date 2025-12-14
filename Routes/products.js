@@ -6,6 +6,8 @@ import { authAdmin } from "../middleware/authAdmin.js";
 
 const router = express.Router();
 
+//constante para la validacion de productos
+
 const productValidation = [
   body("nombre").trim().notEmpty().withMessage("El nombre es requerido"),
   body("descripcion")
@@ -18,13 +20,12 @@ const productValidation = [
   body("imagen").trim().notEmpty().withMessage("La imagen es requerida"),
 ];
 
+//obtener los productos con peticion
 
 router.get("/", async (req, res) => {
   try {
-    
     const products = await Product.find().sort({ createdAt: -1 });
 
-    
     const formattedProducts = products.map((product) => ({
       id: product._id.toString(),
       nombre: product.nombre,
@@ -32,7 +33,7 @@ router.get("/", async (req, res) => {
       precio: product.precio,
       imagen: product.imagen,
     }));
-    
+
     res.json({
       success: true,
       data: formattedProducts,
@@ -47,13 +48,12 @@ router.get("/", async (req, res) => {
   }
 });
 
+//obtener productos por id
 
 router.get("/:id", async (req, res) => {
   try {
-    
     const product = await Product.findById(req.params.id);
 
-    // Si no existe, retornar error 404
     if (!product) {
       return res.status(404).json({
         success: false,
@@ -61,7 +61,6 @@ router.get("/:id", async (req, res) => {
       });
     }
 
-    
     const formattedProduct = {
       id: product._id.toString(),
       nombre: product.nombre,
@@ -70,7 +69,6 @@ router.get("/:id", async (req, res) => {
       imagen: product.imagen,
     };
 
-    
     res.json({
       success: true,
       data: formattedProduct,
@@ -85,6 +83,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+//creacion de productos (require permisos de admin)
 
 router.post(
   "/",
@@ -93,7 +92,6 @@ router.post(
   productValidation,
   async (req, res) => {
     try {
-      
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({
@@ -103,10 +101,8 @@ router.post(
         });
       }
 
-     
       const { nombre, descripcion, precio, imagen } = req.body;
 
-      
       const product = new Product({
         nombre,
         descripcion,
@@ -114,10 +110,8 @@ router.post(
         imagen,
       });
 
-      
       await product.save();
 
-      
       res.status(201).json({
         success: true,
         message: "Producto creado exitosamente",
@@ -134,6 +128,7 @@ router.post(
   }
 );
 
+//para poner productos por id (require permisos de admin)
 
 router.put(
   "/:id",
@@ -185,6 +180,7 @@ router.put(
   }
 );
 
+//para eliminar productos (requiere permisos de administrador)
 
 router.delete("/:id", authenticateToken, authAdmin, async (req, res) => {
   try {

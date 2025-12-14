@@ -7,6 +7,7 @@ import { sendOrderConfirmationEmail } from "../Services/emailService.js";
 
 const router = express.Router();
 
+//Constante para la validacion de ordenes
 
 const orderValidation = [
   body("productos")
@@ -39,10 +40,10 @@ const orderValidation = [
     .withMessage("El total debe ser un número mayor o igual a 0"),
 ];
 
+//enpoint para que el admin vea la orden creada del cliente
 
 router.get("/admin/all", authenticateToken, authAdmin, async (req, res) => {
   try {
-
     const orders = await Order.find()
       .sort({ createdAt: -1 })
       .populate("usuario", "email nombre apellido");
@@ -60,6 +61,8 @@ router.get("/admin/all", authenticateToken, authAdmin, async (req, res) => {
     });
   }
 });
+
+//validacion de creacion de orden con token
 
 router.post("/", authenticateToken, orderValidation, async (req, res) => {
   try {
@@ -85,9 +88,7 @@ router.post("/", authenticateToken, orderValidation, async (req, res) => {
 
     await order.populate("usuario", "email nombre apellido");
 
-    
     try {
-      
       const emailOrder = {
         _id: order._id,
         total: order.total,
@@ -98,7 +99,6 @@ router.post("/", authenticateToken, orderValidation, async (req, res) => {
         })),
       };
 
-     
       await sendOrderConfirmationEmail(order.usuario, emailOrder);
     } catch (emailError) {
       console.error(
@@ -130,6 +130,8 @@ router.post("/", authenticateToken, orderValidation, async (req, res) => {
   }
 });
 
+//encontrar orden por usuario
+
 router.get("/", authenticateToken, async (req, res) => {
   try {
     const orders = await Order.find({ usuario: req.user._id })
@@ -150,16 +152,15 @@ router.get("/", authenticateToken, async (req, res) => {
   }
 });
 
+//encontrar orden por id
 
 router.get("/:id", authenticateToken, async (req, res) => {
   try {
-    
     const order = await Order.findOne({
       _id: req.params.id,
       usuario: req.user._id,
     }).populate("usuario", "email nombre apellido");
 
-    
     if (!order) {
       return res.status(404).json({
         success: false,
@@ -181,13 +182,12 @@ router.get("/:id", authenticateToken, async (req, res) => {
   }
 });
 
+//enpoint para eliminar ordenes no deseadas
 
 router.delete("/:id", authenticateToken, authAdmin, async (req, res) => {
   try {
-   
     const order = await Order.findById(req.params.id);
 
-  
     if (!order) {
       return res.status(404).json({
         success: false,
@@ -195,7 +195,6 @@ router.delete("/:id", authenticateToken, authAdmin, async (req, res) => {
       });
     }
 
-   
     await order.deleteOne();
 
     res.json({
