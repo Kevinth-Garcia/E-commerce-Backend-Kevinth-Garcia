@@ -6,7 +6,6 @@ import { authAdmin } from "../middleware/authAdmin.js";
 
 const router = express.Router();
 
-// Validaciones para productos
 const productValidation = [
   body("nombre").trim().notEmpty().withMessage("El nombre es requerido"),
   body("descripcion")
@@ -54,7 +53,7 @@ router.get("/:id", async (req, res) => {
     
     const product = await Product.findById(req.params.id);
 
-    
+    // Si no existe, retornar error 404
     if (!product) {
       return res.status(404).json({
         success: false,
@@ -71,7 +70,7 @@ router.get("/:id", async (req, res) => {
       imagen: product.imagen,
     };
 
-   
+    
     res.json({
       success: true,
       data: formattedProduct,
@@ -104,7 +103,7 @@ router.post(
         });
       }
 
-      
+     
       const { nombre, descripcion, precio, imagen } = req.body;
 
       

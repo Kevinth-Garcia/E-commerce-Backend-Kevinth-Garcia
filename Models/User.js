@@ -16,19 +16,19 @@ const userSchema = new mongoose.Schema(
         },
         password: {
             type: String,
-            require: true,
-            minlenght: [6, "La contraseña debe ser de al menos 6 caracteres"],
+            required: true,
+            minlength: [6, "La contraseña debe ser de al menos 6 caracteres"],
             select: false,
         },
         nombre: {
             type: String,
-            require: [true, "El nombre es requerido"],
+            required: [true, "El nombre es requerido"],
             trim: true,
 
         },
         apellido: {
             type: String,
-            require: [true, "El apellido es requerido"],
+            required: [true, "El apellido es requerido"],
             trim: true,
         },
         isAdmin: {
@@ -50,19 +50,11 @@ const userSchema = new mongoose.Schema(
     }
 );
 
-userSchema.pre("save", async function (next) {
-    
-    if (!this.isModified("password")) {
-        return next();
-    }
-    try {
-        const salt = await bcrypt.genSalt(10);
-        this.password = await bcrypt.hash(this.password, salt);
-        next();
-    } catch (error) {
-        next(error);
-    }
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
 
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
 });
 
 userSchema.methods.comparePassword = async function (candidatePassword) {
