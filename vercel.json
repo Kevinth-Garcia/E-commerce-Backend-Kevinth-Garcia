@@ -3,13 +3,7 @@
   "functions": {
     "api/index.js": {
       "runtime": "nodejs18.x",
-      "includeFiles": [
-        "models/**",
-        "Routes/**",
-        "middleware/**",
-        "config/**",
-        "Services/**"
-      ]
+      "includeFiles": "{models,Routes,middleware,config,Services}/**"
     }
   },
   "routes": [{ "src": "/(.*)", "dest": "/api/index.js" }]
