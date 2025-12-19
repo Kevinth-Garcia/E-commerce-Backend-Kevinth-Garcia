@@ -1,13 +1,18 @@
 import mongoose from "mongoose";
-//constante que se conectara a mongoDB de manera asyncrona utilizando el URI //
-const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGODB_URI);
-    console.log("MongoDB Connected Correctly");
-  } catch (error) {
-    console.error("MongoDB Connection Error:", error);
-    process.exit(1);
-  }
-};
 
-export default connectDB;
+let cached = global.mongoose;
+if (!cached) cached = global.mongoose = { conn: null, promise: null };
+
+export default async function connectDB() {
+  if (cached.conn) return cached.conn;
+
+  const uri = process.env.MONGODB_URI;
+  if (!uri) throw new Error("MONGODB_URI no está definida en Vercel env vars");
+
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(uri).then((m) => m);
+  }
+
+  cached.conn = await cached.promise;
+  return cached.conn;
+}

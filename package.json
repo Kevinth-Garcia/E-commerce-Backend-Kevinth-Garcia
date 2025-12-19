@@ -1,7 +1,7 @@
 {
   "name": "e-commerce-final-backend",
   "version": "1.0.0",
-  "type":"module",
+  "type": "module",
   "main": "Server.js",
   "scripts": {
     "start": "node server.js",
