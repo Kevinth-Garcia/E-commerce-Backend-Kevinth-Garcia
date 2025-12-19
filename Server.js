@@ -12,11 +12,12 @@ dotenv.config();
 
 const app = express();
 
+//Conectar DB (mejor llamar una vez)
+connectDB();
+
 app.use(cors());
 app.use(express.json());
 
-// Conectar DB (mejor llamar una vez)
-await connectDB();
 
 // Health
 app.get("/api/health", (req, res) => {
