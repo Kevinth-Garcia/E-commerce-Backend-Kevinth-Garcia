@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -21,7 +20,6 @@ const app = express();
 connectDB();
 
 app.use(cors());
-
 app.use(express.json());
 
 app.get("/api/health", (req, res) => {
@@ -34,24 +32,7 @@ app.use("/api/orderRoutes", orderRoutes);
 app.use("/api/userRoutes", userRoutes);
 
 app.use((req, res) => {
-  res.status(404).json({
-    success: false,
-    message: "Ruta no encontrada",
-  });
+  res.status(404).json({ success: false, message: "Ruta no encontrada" });
 });
 
-app.use((err, req, res, next) => {
-  console.error("Error:", err);
-  res.status(err.status || 500).json({
-    success: false,
-    message: err.message || "Error de conexion con el servidor",
-    ...(process.env.NODE_ENV === "develoment" && { stack: err.stack }),
-  });
-});
-
-const PORT = process.env.PORT || 3001;
-
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en puerto ${PORT}`);
-  console.log(`Ambiente: ${process.env.NODE_ENV || "development"}`);
-});
+export default app; // ✅ IMPORTANTE
