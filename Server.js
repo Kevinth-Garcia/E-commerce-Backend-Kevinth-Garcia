@@ -34,10 +34,24 @@ app.use((req, res) => {
   res.status(404).json({ success: false, message: "Ruta no encontrada" });
 });
 
-export default app;
 
-if (process.env.VERCEL !== "1") {
-  const PORT = process.env.PORT || 3001;
-  app.listen(PORT, () => console.log("Server on", PORT));
-}
+
+app.use((err, req, res, next) => {
+  console.error("Error:", err);
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || "Error interno del servidor",
+    
+    ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
+  });
+});
+
+// Definir el puerto del servidor
+const PORT = process.env.PORT || 3001;
+
+// Iniciar el servidor
+app.listen(PORT, () => {
+  console.log(` Servidor corriendo en puerto ${PORT}`);
+  console.log(` Ambiente: ${process.env.NODE_ENV || "development"}`);
+});
 
