@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import User from "../Models/User"; //importo el modelo de usuario
+import User from "../models/User"; //importo el modelo de usuario
 
 //exporto la constante de autenticacion de tokens para que me autorize el acceso como usuario que de no tenerlo me niega el acceso
 //de lo contrario si el token expira dara error

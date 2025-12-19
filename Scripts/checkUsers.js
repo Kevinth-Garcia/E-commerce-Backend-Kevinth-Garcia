@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import User from "../Models/User";
+import User from "../models/User";
 
 //constante para ver los usuarios
 //mostrando los que estan verificados

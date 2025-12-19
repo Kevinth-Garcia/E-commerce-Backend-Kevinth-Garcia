@@ -1,6 +1,6 @@
 import express from "express";
 import { body, validationResult } from "express-validator";
-import Order from "../Models/Order.js";
+import Order from "../models/Order.js";
 import { authenticateToken } from "../middleware/auth.js";
 import { authAdmin } from "../middleware/authAdmin.js";
 import { sendOrderConfirmationEmail } from "../Services/emailService.js";
