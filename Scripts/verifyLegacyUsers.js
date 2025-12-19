@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import User from "../Models/User.js";
+import User from "../models/User.js";
 
 dotenv.config({ path: "./.env" });
 

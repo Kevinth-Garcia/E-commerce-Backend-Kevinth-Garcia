@@ -1,6 +1,6 @@
 import express from "express";
 import { body, validationResult } from "express-validator";
-import User from "../Models/User.js";
+import User from "../models/User.js";
 import { generateToken } from "../middleware/auth.js";
 import {
   sendWelcomeEmail,

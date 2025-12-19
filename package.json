@@ -1,6 +1,7 @@
 {
   "name": "e-commerce-final-backend",
   "version": "1.0.0",
+  "type":"module",
   "main": "Server.js",
   "scripts": {
     "start": "node server.js",
@@ -13,7 +14,6 @@
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
-    "crypto": "^1.0.1",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "express-validator": "^7.3.1",
@@ -30,6 +30,5 @@
     "url": "https://github.com/Kevinth-Garcia/E-commerce-Backend-Kevinth-Garcia/issues"
   },
   "homepage": "https://github.com/Kevinth-Garcia/E-commerce-Backend-Kevinth-Garcia#readme",
-  "devDependencies": {},
   "description": "Backend desarrollado como parte del **Trabajo Práctico Integrador** del Bootcamp **Full Stack Engineer**, utilizando **Node.js, Express y MongoDB**, implementando autenticación con **JWT**, manejo de roles y operaciones CRUD."
 }

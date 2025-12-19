@@ -1,5 +1,5 @@
 import express from "express";
-import User from "../Models/User.js";
+import User from "../models/User.js";
 import { authenticateToken } from "../middleware/auth.js";
 import { authAdmin } from "../middleware/authAdmin.js";
 
