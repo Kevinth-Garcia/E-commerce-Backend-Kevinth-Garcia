@@ -1,6 +1,6 @@
 import express from "express";
 import { body, validationResult } from "express-validator";
-import Product from "../models/Product.js";
+import Product from "../Models/Product.js";
 import { authenticateToken } from "../middleware/auth.js";
 import { authAdmin } from "../middleware/authAdmin.js";
 

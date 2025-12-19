@@ -1,4 +1,4 @@
-import User from "../models/User.js";
+import User from "../Models/User.js";
 
 //Constante para verificar si el usuario tiene permisos de admin
 
