@@ -5,25 +5,25 @@ import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema(
   {
-    name: {
+  nombre: {
       type: String,
-      require: true, //requiere nombre
+      required: true, //requiere nombre
       trim: true,
     },
 
-    description: {
+    descripcion: {
       type: String,
-      require: true, //requiere descripcion
+      required: true, //requiere descripcion
     },
 
     precio: {
       type: Number,
-      require: true, //requiere un precio
+      required: true, //requiere un precio
       min: 0, //que este no sea negativo
     },
     imagen: {
       type: String,
-      require: true, //requiere URL de la imagen
+      required: true, //requiere URL de la imagen
     },
     stock: {
       type: Number,

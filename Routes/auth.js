@@ -30,6 +30,13 @@ const registerValidation = [
     .withMessage("El nombre es requerido")
     .isLength({ min: 2 })
     .withMessage("El nombre debe tener al menos 2 caracteres"),
+
+  body("apellido")
+    .trim()
+    .notEmpty()
+    .withMessage("El apellido es requerido")
+    .isLength({ min: 2 })
+    .withMessage("El apellido debe tener al menos 2 caracteres"),
 ];
 
 //constante para validacion de login de usuario
@@ -69,7 +76,7 @@ router.post("/register", registerValidation, async (req, res) => {
       email,
       password,
       nombre,
-      apellido: apellido || "",
+      apellido,
       isEmailVerified: false,
     });
 

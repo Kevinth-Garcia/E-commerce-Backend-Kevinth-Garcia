@@ -31,5 +31,5 @@
   },
   "homepage": "https://github.com/Kevinth-Garcia/E-commerce-Backend-Kevinth-Garcia#readme",
   "devDependencies": {},
-  "description": ""
+  "description": "Backend desarrollado como parte del **Trabajo Práctico Integrador** del Bootcamp **Full Stack Engineer**, utilizando **Node.js, Express y MongoDB**, implementando autenticación con **JWT**, manejo de roles y operaciones CRUD."
 }

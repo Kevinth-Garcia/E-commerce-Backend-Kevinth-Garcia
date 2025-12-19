@@ -10,8 +10,7 @@ const products = [
   {
     id: 1,
     nombre: "DualSense Edge Wireless Controller",
-    descripcion:
-      "Obtén una ventaja en el juego creando tus propios controles personalizados para adaptarse a tu estilo de juego.",
+    descripcion: "Obtén una ventaja en el juego creando tus propios controles personalizados para adaptarse a tu estilo de juego.",
     precio: 170,
     imagen: "https://m.media-amazon.com/images/I/61eXEcwYZRL._SL1500_.jpg",
   },
