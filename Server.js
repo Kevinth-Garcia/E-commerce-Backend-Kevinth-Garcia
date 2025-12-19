@@ -50,10 +50,11 @@ app.use((err, req, res, next) => {
 // Definir el puerto del servidor
 const PORT = process.env.PORT || 3001;
 
-// Iniciar el servidor
-app.listen(PORT, () => {
-  console.log(` Servidor corriendo en puerto ${PORT}`);
-  console.log(` Ambiente: ${process.env.NODE_ENV || "development"}`);
-});
+if (process.env.VERCEL !== "1") {
+  app.listen(PORT, () => {
+    console.log(`Servidor corriendo en puerto ${PORT}`);
+  });
+}
 
 export default app;
+
