@@ -35,4 +35,10 @@ app.use((req, res) => {
   res.status(404).json({ success: false, message: "Ruta no encontrada" });
 });
 
-export default app; // ✅ IMPORTANTE
+const PORT = process.env.PORT || 3001;
+
+// Iniciar el servidor
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor corriendo en puerto ${PORT}`);
+  console.log(`📡 Ambiente: ${process.env.NODE_ENV || "development"}`);
+});
