@@ -12,49 +12,40 @@ dotenv.config();
 
 const app = express();
 
-//Conectar DB (mejor llamar una vez)
+// DB
 connectDB();
 
+// Middlewares
 app.use(cors());
 app.use(express.json());
-
 
 // Health
 app.get("/api/health", (req, res) => {
   res.status(200).json({ status: "OK", message: "Server is running" });
 });
 
-// Rutas
+// Routes
 app.use("/api/auth", authRoutes);
-app.use("/api/productRoutes", productRoutes);
-app.use("/api/orderRoutes", orderRoutes);
-app.use("/api/userRoutes", userRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/users", userRoutes);
 
 // 404
 app.use((req, res) => {
   res.status(404).json({ success: false, message: "Ruta no encontrada" });
 });
 
-
-
+// Error handler
 app.use((err, req, res, next) => {
-  console.error("Error:", err);
+  console.error(err);
   res.status(err.status || 500).json({
     success: false,
     message: err.message || "Error interno del servidor",
-    
-    ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
   });
 });
 
-// Definir el puerto del servidor
+// SERVER (Render)
 const PORT = process.env.PORT || 3001;
-
-if (process.env.VERCEL !== "1") {
-  app.listen(PORT, () => {
-    console.log(`Servidor corriendo en puerto ${PORT}`);
-  });
-}
-
-export default app;
-
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en puerto ${PORT}`);
+});

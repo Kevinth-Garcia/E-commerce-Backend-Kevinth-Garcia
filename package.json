@@ -4,8 +4,8 @@
   "type": "module",
   "main": "Server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node --watch server.js",
+    "start": "node Server.js",
+    "dev": "node --watch Server.js",
     "seed": "node scripts/seedProducts.js"
   },
   "keywords": [],
