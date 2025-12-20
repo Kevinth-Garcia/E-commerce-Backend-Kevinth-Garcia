@@ -29,7 +29,7 @@ El sistema implementa:
 
 ---
 
-## 🗄️ Base de Datos (MongoDB + Mongoose)
+## 🗄️ Base de Datos (MongoDB + Mongoose) 
 
 ### Usuario
 - email
