@@ -2,11 +2,11 @@
   "name": "e-commerce-final-backend",
   "version": "1.0.0",
   "type": "module",
-  "main": "Server.js",
+  "main": "src/Server.js",
   "scripts": {
-    "start": "node Server.js",
-    "dev": "node --watch Server.js",
-    "seed": "node scripts/seedProducts.js"
+    "start": "node src/Server.js",
+    "dev": "node --watch src/Server.js",
+    "seed": "node src/scripts/seedProducts.js"
   },
   "keywords": [],
   "author": "",
