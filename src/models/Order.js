@@ -1,53 +1,67 @@
 import mongoose from "mongoose";
 
-//schema de ordenes para crear
-//aun no existe metodo de pago para hacer depues una implementacion con stripe por falta de tiempo
+// Ordenes: guardamos snapshot del producto (id/nombre/precio/cantidad)
+// así no dependes de populate ni de refs para el TP.
 
 const orderSchema = new mongoose.Schema(
   {
     usuario: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User", //requiere nombre
-      require: true,
+      ref: "User",
+      required: true,
+    },
+
+    // ✅ idempotencia: evita órdenes duplicadas si el request se reintenta
+    clientOrderId: {
+      type: String,
+      unique: true,
+      sparse: true,
     },
 
     productos: [
       {
-        producto: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Product", //requiere producto
-          require: true,
+        id: {
+          type: String,
+          required: true,
+        },
+        nombre: {
+          type: String,
+          required: true,
+          trim: true,
         },
         cantidad: {
-          type: Number, //cantidad de productos
-          require: true,
+          type: Number,
+          required: true,
           min: 1,
         },
         precio: {
-          type: Number, //precio marcado
-          require: true,
+          type: Number,
+          required: true,
+          min: 0,
         },
       },
     ],
+
     total: {
-      type: Number, //total de productos
-      require: true,
+      type: Number,
+      required: true,
+      min: 0,
     },
+
     estado: {
-      type: String, //el estado en el que se encuentra la orden
+      type: String,
       enum: ["pendiente", "pagado", "enviado", "entregado", "cancelado"],
       default: "pendiente",
     },
+
     direccionEnvio: {
-      calle: String, //dirreccion a donde debe llegar la orden
+      calle: String,
       ciudad: String,
       codigoPostal: String,
       pais: String,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 export default mongoose.model("Order", orderSchema);
