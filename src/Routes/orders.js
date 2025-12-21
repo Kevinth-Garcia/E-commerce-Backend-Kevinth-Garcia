@@ -43,7 +43,7 @@ const orderValidation = [
     })
     .withMessage("El total debe ser un número mayor o igual a 0"),
 
-  // ✅ idempotencia opcional (lo manda el frontend)
+  // 
   body("clientOrderId")
     .optional()
     .isString()
@@ -83,7 +83,7 @@ router.post("/", authenticateToken, orderValidation, async (req, res) => {
 
     const { productos, total, clientOrderId } = req.body;
 
-    // ✅ idempotencia: si ya existe una orden con ese clientOrderId, devuelve esa
+    // idempotencia: si ya existe una orden con ese clientOrderId, devuelve esa
     if (clientOrderId) {
       const existing = await Order.findOne({
         usuario: req.user._id,
@@ -99,7 +99,7 @@ router.post("/", authenticateToken, orderValidation, async (req, res) => {
       }
     }
 
-    // ✅ crear orden (sin "fecha", timestamps ya te dan createdAt)
+    //  crear orden 
     const order = new Order({
       usuario: req.user._id,
       productos,
@@ -110,7 +110,7 @@ router.post("/", authenticateToken, orderValidation, async (req, res) => {
     await order.save();
     await order.populate("usuario", "email nombre apellido");
 
-    // ✅ EMAIL: no bloquees la respuesta (evita timeouts en Render)
+    // (evita timeouts en Render)
     // si falla, lo loguea, pero la compra se mantiene
     (async () => {
       try {
