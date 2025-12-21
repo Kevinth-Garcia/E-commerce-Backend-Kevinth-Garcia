@@ -88,23 +88,7 @@ router.post("/register", registerValidation, async (req, res) => {
 
     await user.save();
 
-    const backendUrl =
-      process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 3001}`;
-    const verifyUrl = `${backendUrl}/api/auth/verify-email/${verificationToken}`;
-
-    try {
-      await sendEmailVerification(user, verifyUrl);
-    } catch (emailError) {
-      console.error("Error enviando email de verificación:", emailError);
-
-      await User.findByIdAndDelete(user._id);
-      return res.status(500).json({
-        success: false,
-        message:
-          "Error al enviar email de verificación. Por favor intenta de nuevo.",
-      });
-    }
-
+    // ✅ Responde rápido al frontend
     res.status(201).json({
       success: true,
       message:
@@ -112,8 +96,29 @@ router.post("/register", registerValidation, async (req, res) => {
       data: {
         email: user.email,
         nombre: user.nombre,
+        apellido: user.apellido,
       },
     });
+
+    // ✅ Email en segundo plano (NO bloquea)
+    const backendUrl =
+      process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 3001}`;
+
+    const clientUrl = process.env.CLIENT_URL || "http://localhost:5173";
+
+    // Te recomiendo que el link vaya al FRONT (mejor UX)
+    const verifyUrl = `${backendUrl}/api/auth/verify-email/${verificationToken}`;
+    // Si quieres link directo al front sin redirección:
+    // const verifyUrl = `${clientUrl}/verify-email/${verificationToken}`;
+
+    (async () => {
+      try {
+        await sendEmailVerification(user, verifyUrl);
+      } catch (emailError) {
+        console.error("Error enviando email de verificación:", emailError);
+        // ❗ Ya NO borramos el usuario (para no romper registro por email)
+      }
+    })();
   } catch (error) {
     console.error("Error en registro:", error);
     res.status(500).json({
@@ -253,10 +258,11 @@ router.post("/forgot-password", async (req, res) => {
     const { email } = req.body;
     const user = await User.findOne({ email });
 
+    
     if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "No existe un usuario con ese email",
+      return res.json({
+        success: true,
+        message: "Si el email existe, se envió el enlace de recuperación.",
       });
     }
 
@@ -273,27 +279,34 @@ router.post("/forgot-password", async (req, res) => {
       process.env.CLIENT_URL || "http://localhost:5173"
     }/reset-password/${resetToken}`;
 
-    try {
-      await sendPasswordResetEmail(user, resetUrl);
-      res.json({
-        success: true,
-        message: "Email de recuperación enviado",
-      });
-    } catch (error) {
-      user.resetPasswordToken = undefined;
-      user.resetPasswordExpires = undefined;
-      await user.save();
-      return res.status(500).json({
-        success: false,
-        message: "Error al enviar el email",
-      });
-    }
+    
+    res.json({
+      success: true,
+      message:
+        "Email de recuperación enviado (si el servicio está disponible).",
+    });
+
+    
+    setImmediate(async () => {
+      const r = await sendPasswordResetEmail(user, resetUrl);
+
+     
+      if (!r?.ok) {
+        try {
+          user.resetPasswordToken = undefined;
+          user.resetPasswordExpires = undefined;
+          await user.save();
+          console.log("Reset token limpiado porque falló el email.");
+        } catch (e) {
+          console.error("Error limpiando reset token:", e?.message || e);
+        }
+      }
+    });
   } catch (error) {
     console.error("Error en forgot-password:", error);
     res.status(500).json({
       success: false,
       message: "Error al procesar la solicitud",
-      error: error.message,
     });
   }
 });
